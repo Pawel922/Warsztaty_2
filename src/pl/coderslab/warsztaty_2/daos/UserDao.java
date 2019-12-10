@@ -20,8 +20,7 @@ public class UserDao {
 
     public User create(User user) {
         try (Connection conn = DBUtil.getConnection()) {
-            PreparedStatement statement =
-                    conn.prepareStatement(CREATE_USER_QUERY, Statement.RETURN_GENERATED_KEYS);
+            PreparedStatement statement = conn.prepareStatement(CREATE_USER_QUERY, Statement.RETURN_GENERATED_KEYS);
             statement.setString(1, user.getUserName());
             statement.setString(2, user.getEmail());
             statement.setString(3, user.getPassword());
@@ -100,7 +99,7 @@ public class UserDao {
 
     private User[] addToArray(User u, User[] users) {
         User[] tmpUsers = Arrays.copyOf(users, users.length + 1);
-        tmpUsers[users.length] = u;
+        tmpUsers[users.length - 1] = u;
         return tmpUsers;
     }
 }
