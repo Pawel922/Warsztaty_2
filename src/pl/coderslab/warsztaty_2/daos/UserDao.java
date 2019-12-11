@@ -27,7 +27,7 @@ public class UserDao {
             statement.executeUpdate();
             ResultSet resultSet = statement.getGeneratedKeys();
             if (resultSet.next()) {
-                user.setId(resultSet.getInt(1));
+                user.setId(resultSet.getInt("id"));
             }
             return user;
         } catch (SQLException e) {
