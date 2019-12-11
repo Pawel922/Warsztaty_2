@@ -2,8 +2,6 @@ package pl.coderslab.warsztaty_2.daos;
 
 import pl.coderslab.warsztaty_2.DBUtil;
 import pl.coderslab.warsztaty_2.models.Group;
-import pl.coderslab.warsztaty_2.models.User;
-
 import java.sql.*;
 import java.util.Arrays;
 
@@ -27,7 +25,7 @@ public class GroupDao {
             statement.executeUpdate();
             ResultSet resultSet = statement.getGeneratedKeys();
             if (resultSet.next()) {
-                group.setId(resultSet.getInt(1));
+                group.setId(resultSet.getInt("id"));
             }
             return group;
         } catch (SQLException e) {
