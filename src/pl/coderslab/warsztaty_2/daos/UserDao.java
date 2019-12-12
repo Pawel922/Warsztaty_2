@@ -8,11 +8,11 @@ import java.util.Arrays;
 public class UserDao {
 
     private static final String CREATE_USER_QUERY =
-            "INSERT INTO users(username, email, password) VALUES (?, ?, ?)";
+            "INSERT INTO users(username, email, password, userGroupId) VALUES (?, ?, ?, ?)";
     private static final String READ_USER_QUERY =
             "SELECT * FROM users where id = ?";
     private static final String UPDATE_USER_QUERY =
-            "UPDATE users SET username = ?, email = ?, password = ? where id = ?";
+            "UPDATE users SET username = ?, email = ?, password = ?, userGroupId = ? where id = ?";
     private static final String DELETE_USER_QUERY =
             "DELETE FROM users WHERE id = ?";
     private static final String FIND_ALL_USERS_QUERY =
@@ -24,6 +24,7 @@ public class UserDao {
             statement.setString(1, user.getUserName());
             statement.setString(2, user.getEmail());
             statement.setString(3, user.getPassword());
+            statement.setInt(4, user.getUserGroupId());
             statement.executeUpdate();
             ResultSet resultSet = statement.getGeneratedKeys();
             if (resultSet.next()) {
@@ -47,6 +48,7 @@ public class UserDao {
                 user.setUserName(resultSet.getString("username"));
                 user.setEmail(resultSet.getString("email"));
                 user.setPassword(resultSet.getString("password"));
+                user.setUserGroupId(resultSet.getInt("userGroupId"));
                 return user;
             }
         } catch (SQLException e) {
@@ -61,7 +63,8 @@ public class UserDao {
             statement.setString(1, user.getUserName());
             statement.setString(2, user.getEmail());
             statement.setString(3, user.getPassword());
-            statement.setInt(4, user.getId());
+            statement.setInt(4, user.getUserGroupId());
+            statement.setInt(5, user.getId());
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -89,6 +92,7 @@ public class UserDao {
                 user.setUserName(resultSet.getString("username"));
                 user.setEmail(resultSet.getString("email"));
                 user.setPassword(resultSet.getString("password"));
+                user.setUserGroupId(resultSet.getInt("userGroupId"));
                 users = addToArray(user, users);
             }
             return users;
