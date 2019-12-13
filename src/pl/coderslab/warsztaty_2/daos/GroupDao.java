@@ -25,7 +25,7 @@ public class GroupDao {
             statement.executeUpdate();
             ResultSet resultSet = statement.getGeneratedKeys();
             if (resultSet.next()) {
-                group.setId(resultSet.getInt("id"));
+                group.setId(resultSet.getInt(1));
             }
             return group;
         } catch (SQLException e) {

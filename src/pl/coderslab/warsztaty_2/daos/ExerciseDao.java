@@ -26,7 +26,7 @@ public class ExerciseDao {
             statement.executeUpdate();
             ResultSet resultSet = statement.getGeneratedKeys();
             if (resultSet.next()) {
-                exercise.setId(resultSet.getInt("id"));
+                exercise.setId(resultSet.getInt(1));
             }
             return exercise;
         } catch (SQLException e) {
