@@ -27,4 +27,12 @@ public class Group {
         this.name = name;
     }
 
+    @Override
+    public String toString(){
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("id:   ").append(this.id).append("\n");
+        stringBuilder.append("name: ").append(this.name).append("\n");
+        return stringBuilder.toString();
+    }
+
 }

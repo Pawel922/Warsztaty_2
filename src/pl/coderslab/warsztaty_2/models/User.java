@@ -62,5 +62,15 @@ public class User {
         this.password = BCrypt.hashpw(password, BCrypt.gensalt());
     }
 
+    @Override
+    public String toString(){
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("id:          ").append(this.id).append("\n");
+        stringBuilder.append("userName:    ").append(this.userName).append("\n");
+        stringBuilder.append("email:       ").append(this.email).append("\n");
+        stringBuilder.append("userGroupId: ").append(this.userGroupId).append("\n");
+        return stringBuilder.toString();
+    }
+
 
 }

@@ -36,4 +36,14 @@ public class Exercise {
     public void setDescription(String description){
         this.description = description;
     }
+
+    @Override
+    public String toString(){
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("id:          ").append(this.id).append("\n");
+        stringBuilder.append("title:       ").append(this.title).append("\n");
+        stringBuilder.append("description: ").append(this.description).append("\n");
+        return stringBuilder.toString();
+    }
+
 }
