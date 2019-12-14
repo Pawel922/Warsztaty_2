@@ -9,6 +9,16 @@ public class Solution {
     private int exerciseId;
     private int userId;
 
+    public Solution() {}
+
+    public Solution(String created, String updated, String description, int exerciseId, int userId){
+        this.created = created;
+        this.updated = updated;
+        this.description = description;
+        this.exerciseId = exerciseId;
+        this.userId = userId;
+    }
+
     public int getId() {
         return id;
     }
@@ -63,7 +73,6 @@ public class Solution {
         stringBuilder.append("id:          ").append(this.id).append("\n");
         stringBuilder.append("created:     ").append(this.created).append("\n");
         stringBuilder.append("updated:     ").append(this.updated).append("\n");
-        stringBuilder.append("description: ").append(this.description).append("\n");
         stringBuilder.append("description: ").append(this.description).append("\n");
         stringBuilder.append("exerciseId:  ").append(this.exerciseId).append("\n");
         stringBuilder.append("userId:      ").append(this.userId).append("\n");
