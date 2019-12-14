@@ -13,7 +13,7 @@ public class SolutionDao {
     private static final String READ_SOLUTION_QUERY =
             "SELECT * FROM solutions where id = ?";
     private static final String UPDATE_SOLUTION_QUERY =
-            "UPDATE solutions SET created = ?, updated = ?, description = ?, exercise_id = ?, user_id where id = ?";
+            "UPDATE solutions SET created = ?, updated = ?, description = ?, exercise_id = ?, user_id = ? where id = ?";
     private static final String DELETE_SOLUTION_QUERY =
             "DELETE FROM solutions WHERE id = ?";
     private static final String FIND_ALL_SOLUTION_QUERY =
