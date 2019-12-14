@@ -91,7 +91,7 @@ public class GroupDao {
 
     private Group[] addToArray(Group g, Group[] groups) {
         Group[] tmpGroups = Arrays.copyOf(groups, groups.length + 1);
-        tmpGroups[groups.length - 1] = g;
+        tmpGroups[tmpGroups.length - 1] = g;
         return tmpGroups;
     }
 }

@@ -108,7 +108,7 @@ public class SolutionDao {
 
     private Solution[] addToArray(Solution s, Solution[] solutions) {
         Solution[] tmpSolutions = Arrays.copyOf(solutions, solutions.length + 1);
-        tmpSolutions[solutions.length - 1] = s;
+        tmpSolutions[tmpSolutions.length - 1] = s;
         return tmpSolutions;
     }
 

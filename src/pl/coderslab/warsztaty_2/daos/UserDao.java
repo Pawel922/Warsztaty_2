@@ -92,7 +92,7 @@ public class UserDao {
                 user.setUserName(resultSet.getString("username"));
                 user.setEmail(resultSet.getString("email"));
                 user.setPassword(resultSet.getString("password"));
-                user.setUserGroupId(resultSet.getInt("userGroupId"));
+                user.setUserGroupId(resultSet.getInt("user_groups"));
                 users = addToArray(user, users);
             }
             return users;
@@ -103,7 +103,7 @@ public class UserDao {
 
     private User[] addToArray(User u, User[] users) {
         User[] tmpUsers = Arrays.copyOf(users, users.length + 1);
-        tmpUsers[users.length - 1] = u;
+        tmpUsers[tmpUsers.length - 1] = u;
         return tmpUsers;
     }
 }

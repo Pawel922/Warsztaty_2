@@ -94,7 +94,7 @@ public class ExerciseDao {
 
     private Exercise[] addToArray(Exercise e, Exercise[] exercises) {
         Exercise[] tmpExercises = Arrays.copyOf(exercises, exercises.length + 1);
-        tmpExercises[exercises.length - 1] = e;
+        tmpExercises[tmpExercises.length - 1] = e;
         return tmpExercises;
     }
 
