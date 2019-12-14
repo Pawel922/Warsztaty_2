@@ -18,6 +18,10 @@ public class SolutionDao {
             "DELETE FROM solutions WHERE id = ?";
     private static final String FIND_ALL_SOLUTION_QUERY =
             "SELECT * FROM solutions";
+    private static final String FIND_ALL_SOLUTION_BY_USER_ID_QUERY =
+            "SELECT * FROM solutions WHERE user_id = ?";
+    private static final String FIND_ALL_SOLUTION_BY_EXERCISE_ID_QUERY =
+            "SELECT * FROM solutions WHERE exercise_id = ? ORDER BY updated DESC";
 
     public Solution create(Solution solution) {
         try (Connection conn = DBUtil.getConnection()) {
@@ -111,6 +115,54 @@ public class SolutionDao {
         tmpSolutions[tmpSolutions.length - 1] = s;
         return tmpSolutions;
     }
+
+    public Solution[] findAllByUserId(int userId){
+        try (Connection conn = DBUtil.getConnection()) {
+            Solution[] solutions = new Solution[0];
+            PreparedStatement statement = conn.prepareStatement(FIND_ALL_SOLUTION_BY_USER_ID_QUERY);
+            statement.setInt(1,userId);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()){
+                Solution solution = new Solution();
+                solution.setId(resultSet.getInt("id"));
+                solution.setCreated(resultSet.getString("created"));
+                solution.setUpdated(resultSet.getString("updated"));
+                solution.setDescription(resultSet.getString("description"));
+                solution.setExerciseId(resultSet.getInt("exercise_id"));
+                solution.setUserId(resultSet.getInt("user_id"));
+                solutions = addToArray(solution, solutions);
+            }
+            return solutions;
+        } catch (SQLException e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public Solution[] findAllByExerciseId(int exerciseId){
+        try (Connection conn = DBUtil.getConnection()) {
+            Solution[] solutions = new Solution[0];
+            PreparedStatement statement = conn.prepareStatement(FIND_ALL_SOLUTION_BY_EXERCISE_ID_QUERY);
+            statement.setInt(1,exerciseId);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()){
+                Solution solution = new Solution();
+                solution.setId(resultSet.getInt("id"));
+                solution.setCreated(resultSet.getString("created"));
+                solution.setUpdated(resultSet.getString("updated"));
+                solution.setDescription(resultSet.getString("description"));
+                solution.setExerciseId(resultSet.getInt("exercise_id"));
+                solution.setUserId(resultSet.getInt("user_id"));
+                solutions = addToArray(solution, solutions);
+            }
+            return solutions;
+        } catch (SQLException e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+
 
 
 }
