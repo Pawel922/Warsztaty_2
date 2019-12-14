@@ -58,6 +58,7 @@ public class ExerciseDao {
             PreparedStatement statement = conn.prepareStatement(UPDATE_EXERCISE_QUERY);
             statement.setString(1, exercise.getTitle());
             statement.setString(2, exercise.getDescription());
+            statement.setInt(3,exercise.getId());
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
