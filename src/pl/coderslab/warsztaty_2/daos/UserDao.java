@@ -19,6 +19,8 @@ public class UserDao {
             "SELECT * FROM users";
     private static final String FIND_ALL_BY_GROUP_ID =
             "SELECT * FROM users WHERE user_groups = ?";
+    private static final String CHECK_IF_USER_EXIST =
+            "SELECT users.id AS id FROM users WHERE email = ?";
 
     public User create(User user) {
         try (Connection conn = DBUtil.getConnection()) {
@@ -128,6 +130,22 @@ public class UserDao {
         } catch (SQLException e) {
             e.printStackTrace();
             return null;
+        }
+    }
+
+    public int checkIfUserExist(String userEmail){
+        int userExist = 0;
+        try(Connection conn = DBUtil.getConnection()) {
+            PreparedStatement statement = conn.prepareStatement(CHECK_IF_USER_EXIST);
+            statement.setString(1,userEmail);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+              userExist = resultSet.getInt("id");
+            }
+            return userExist;
+        } catch ( SQLException e){
+            e.printStackTrace();
+            return userExist;
         }
     }
 
