@@ -17,6 +17,13 @@ public class Solution {
         this.userId = userId;
     }
 
+    public Solution(String created, int exerciseId, int userId, String description) {
+        this.created = created;
+        this.exerciseId = exerciseId;
+        this.userId = userId;
+        this.description = description;
+    }
+
     public Solution(String created, String updated, String description, int exerciseId, int userId){
         this.created = created;
         this.updated = updated;
