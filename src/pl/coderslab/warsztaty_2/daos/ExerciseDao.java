@@ -17,6 +17,15 @@ public class ExerciseDao {
             "DELETE FROM exercises WHERE id = ?";
     private static final String FIND_ALL_EXERCISE_QUERY =
             "SELECT * FROM exercises";
+    private static final String FIND_ALL_INCOMPLETED_EXERCISE_QUERY =
+            "SELECT DISTINCT exercises.id, exercises.title, exercises.description FROM exercises\n" +
+                    "INNER JOIN solutions ON exercises.id = solutions.exercise_id\n" +
+                    "WHERE user_id <> ?\n" +
+                    "AND exercises.id NOT IN " +
+                    "((SELECT DISTINCT exercises.id FROM exercises " +
+                    "INNER JOIN solutions ON exercises.id = solutions.exercise_id\n" +
+                    "WHERE user_id = ?)) " +
+                    "ORDER BY exercises.id";
 
     public Exercise create(Exercise exercise) {
         try (Connection conn = DBUtil.getConnection()) {
@@ -97,6 +106,27 @@ public class ExerciseDao {
         Exercise[] tmpExercises = Arrays.copyOf(exercises, exercises.length + 1);
         tmpExercises[tmpExercises.length - 1] = e;
         return tmpExercises;
+    }
+
+    public Exercise[] findAllIncompleted(int userId){
+        try (Connection conn = DBUtil.getConnection()) {
+            Exercise[] exercises = new Exercise[0];
+            PreparedStatement statement = conn.prepareStatement(FIND_ALL_INCOMPLETED_EXERCISE_QUERY);
+            statement.setInt(1,userId);
+            statement.setInt(2,userId);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                Exercise exercise = new Exercise();
+                exercise.setId(resultSet.getInt("id"));
+                exercise.setTitle(resultSet.getString("title"));
+                exercise.setDescription(resultSet.getString("description"));
+                exercises = addToArray(exercise, exercises);
+            }
+            return exercises;
+        } catch (SQLException e) {
+            e.printStackTrace(); return null;
+        }
+
     }
 
 
