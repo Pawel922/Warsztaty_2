@@ -1,5 +1,7 @@
 package pl.coderslab.warsztaty_2;
 
+
+import org.apache.commons.lang3.StringUtils;
 import pl.coderslab.warsztaty_2.daos.UserDao;
 import pl.coderslab.warsztaty_2.models.User;
 
@@ -33,9 +35,12 @@ public class Program_1 {
     public static void printUsers(){
         UserDao userDao = new UserDao();
         User[] users = userDao.findAll();
+        System.out.printf("%-6s|%-30s|%-50s|%-12s%n","ID","USERNAME","EMAIL","GROUP ID");
+        String separateLine = StringUtils.repeat("-",98);
+        System.out.println(separateLine);
         for(User user : users){
-            System.out.print(user);
-            System.out.println();
+            System.out.printf("%-6s|%-30s|%-50s|%-12s%n",user.getId(),user.getUserName(), user.getEmail(),user.getUserGroupId());
+            System.out.println(separateLine);
         }
     }
 
