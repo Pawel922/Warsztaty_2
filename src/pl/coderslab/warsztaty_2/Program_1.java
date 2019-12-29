@@ -87,19 +87,27 @@ public class Program_1 {
         UserDao userDao = new UserDao();
         System.out.println("Give a proper id number of user whose you want to edit");
         int id_number = Integer.parseInt(getData("User_Id"));
-        User user = userDao.read(id_number);
-        System.out.println("Give a new data:");
-        user.setUserName(getData("Username"));;
-        user.setEmail(getData("Email"));;
-        user.setPassword(getData("Password"));;
-        user.setUserGroupId(Integer.parseInt(getData("User_group")));
-        userDao.update(user);
+        if(userDao.checkIfIdIsProper(id_number)){
+            User user = userDao.read(id_number);
+            System.out.println("Give a new data:");
+            user.setUserName(getData("Username"));;
+            user.setEmail(getData("Email"));;
+            user.setPassword(getData("Password"));;
+            user.setUserGroupId(Integer.parseInt(getData("User_group")));
+            userDao.update(user);
+        } else {
+            System.out.println("User with given id does not exist");
+        }
     }
 
     public static void deleteOption(){
         UserDao userDao = new UserDao();
         System.out.println("Give a proper id number of user whose you want to delete");
         int id_number = Integer.parseInt(getData("User_Id"));
-        userDao.delete(id_number);
+        if(userDao.checkIfIdIsProper(id_number)){
+            userDao.delete(id_number);
+        } else {
+            System.out.println("User with given id does not exist.");
+        }
     }
 }
