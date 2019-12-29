@@ -26,6 +26,8 @@ public class ExerciseDao {
                     "INNER JOIN solutions ON exercises.id = solutions.exercise_id\n" +
                     "WHERE user_id = ?)) " +
                     "ORDER BY exercises.id";
+    private static final String CHECK_IF_ID_IS_PROPER =
+            "SELECT exercises.id AS id FROM exercises WHERE id = ?";
 
     public Exercise create(Exercise exercise) {
         try (Connection conn = DBUtil.getConnection()) {
@@ -39,7 +41,7 @@ public class ExerciseDao {
             }
             return exercise;
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println("Adding new exercise failed. Make sure that input data are proper.");
             return null;
         }
     }
@@ -57,7 +59,7 @@ public class ExerciseDao {
                 return exercise;
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println("Exercise with given id does not exist");
         }
         return null;
     }
@@ -70,7 +72,7 @@ public class ExerciseDao {
             statement.setInt(3,exercise.getId());
             statement.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println("Updating failed. Make sure that input data are proper.");
         }
     }
 
@@ -80,7 +82,7 @@ public class ExerciseDao {
             statement.setInt(1, exerciseId);
             statement.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println("Deleting failed. Make sure that input data are proper.");
         }
     }
 
@@ -98,7 +100,8 @@ public class ExerciseDao {
             }
             return exercises;
         } catch (SQLException e) {
-            e.printStackTrace(); return null;
+            System.out.println("Finding all exercises failed. Make sure that input data are proper.");
+            return null;
         }
     }
 
@@ -124,9 +127,25 @@ public class ExerciseDao {
             }
             return exercises;
         } catch (SQLException e) {
-            e.printStackTrace(); return null;
+            System.out.println("Finding all incompleted exercises failed. Make sure that input data are proper.");
+            return null;
         }
+    }
 
+    public boolean checkIfIdIsProper(int exerciseId){
+        boolean iDIsProper = false;
+        try(Connection conn = DBUtil.getConnection()) {
+            PreparedStatement statement = conn.prepareStatement(CHECK_IF_ID_IS_PROPER);
+            statement.setInt(1,exerciseId);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                iDIsProper = true;
+            }
+            return iDIsProper;
+        } catch ( SQLException e){
+            System.out.println("Something goes wrong.");
+            return iDIsProper;
+        }
     }
 
 
