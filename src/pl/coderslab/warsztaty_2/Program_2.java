@@ -1,5 +1,6 @@
 package pl.coderslab.warsztaty_2;
 
+import org.apache.commons.lang3.StringUtils;
 import pl.coderslab.warsztaty_2.daos.ExerciseDao;
 import pl.coderslab.warsztaty_2.models.Exercise;
 
@@ -33,9 +34,12 @@ public class Program_2 {
     public static void printExercises(){
         ExerciseDao exerciseDao = new ExerciseDao();
         Exercise[] exercises = exerciseDao.findAll();
+        System.out.printf("%-6s|%-30s|%-130s%n","ID","TITLE","DESCRIPTION");
+        String separateLine = StringUtils.repeat("-",156);
+        System.out.println(separateLine);
         for(Exercise exercise : exercises){
-            System.out.print(exercise);
-            System.out.println();
+            System.out.printf("%-6s|%-30s|%-130s%n",exercise.getId(), exercise.getTitle(),exercise.getDescription());
+            System.out.println(separateLine);
         }
     }
 
@@ -80,17 +84,25 @@ public class Program_2 {
         ExerciseDao exerciseDao = new ExerciseDao();
         System.out.println("Give a proper id number of exercise which you want to edit");
         int id_number = Integer.parseInt(getData("Exercise_Id"));
-        Exercise exercise = exerciseDao.read(id_number);
-        System.out.println("Give a new data:");
-        exercise.setTitle(getData("Title"));
-        exercise.setDescription(getData("Description"));
-        exerciseDao.update(exercise);
+        if(exerciseDao.checkIfIdIsProper(id_number)){
+            Exercise exercise = exerciseDao.read(id_number);
+            System.out.println("Give a new data:");
+            exercise.setTitle(getData("Title"));
+            exercise.setDescription(getData("Description"));
+            exerciseDao.update(exercise);
+        } else {
+            System.out.println("Exercise with given id does not exist.");
+        }
     }
 
     public static void deleteOption(){
         ExerciseDao exerciseDao = new ExerciseDao();
         System.out.println("Give a proper id number of exercise which you want to delete");
         int id_number = Integer.parseInt(getData("Exercise_Id"));
-        exerciseDao.delete(id_number);
+        if(exerciseDao.checkIfIdIsProper(id_number)){
+            exerciseDao.delete(id_number);
+        } else {
+            System.out.println("Exercise with given id does not exist.");
+        }
     }
 }
