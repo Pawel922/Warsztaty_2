@@ -21,6 +21,8 @@ public class UserDao {
             "SELECT * FROM users WHERE user_groups = ?";
     private static final String CHECK_IF_USER_EXIST =
             "SELECT users.id AS id FROM users WHERE email = ?";
+    private static final String CHECK_IF_ID_IS_PROPER =
+            "SELECT users.id AS id FROM users WHERE id = ?";
 
     public User create(User user) {
         try (Connection conn = DBUtil.getConnection()) {
@@ -36,7 +38,7 @@ public class UserDao {
             }
             return user;
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println("Adding new user failed. Make sure that input data are proper.");
             return null;
         }
     }
@@ -56,7 +58,7 @@ public class UserDao {
                 return user;
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println("User with given id does not exist");
         }
         return null;
     }
@@ -71,7 +73,7 @@ public class UserDao {
             statement.setInt(5, user.getId());
             statement.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println("Updating failed. Make sure that input data are proper. ");
         }
     }
 
@@ -81,7 +83,7 @@ public class UserDao {
             statement.setInt(1, userId);
             statement.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println("Deleting failed. Make sure that input data are proper. ");
         }
     }
 
@@ -101,7 +103,8 @@ public class UserDao {
             }
             return users;
         } catch (SQLException e) {
-            e.printStackTrace(); return null;
+            System.out.println("Finding all users failed. Make sure that input data are proper. ");
+            return null;
         }
     }
 
@@ -128,7 +131,7 @@ public class UserDao {
             }
             return users;
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println("Finding all users by group failed. Make sure that input data are proper. ");
             return null;
         }
     }
@@ -144,8 +147,24 @@ public class UserDao {
             }
             return userExist;
         } catch ( SQLException e){
-            e.printStackTrace();
+            System.out.println("Something goes wrong.");
             return userExist;
+        }
+    }
+
+    public boolean checkIfIdIsProper(int userId){
+        boolean iDIsProper = false;
+        try(Connection conn = DBUtil.getConnection()) {
+            PreparedStatement statement = conn.prepareStatement(CHECK_IF_ID_IS_PROPER);
+            statement.setInt(1,userId);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                iDIsProper = true;
+            }
+            return iDIsProper;
+        } catch ( SQLException e){
+            System.out.println("Something goes wrong.");
+            return iDIsProper;
         }
     }
 
