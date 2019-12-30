@@ -91,7 +91,7 @@ public class Program_2 {
             exercise.setDescription(getData("Description"));
             exerciseDao.update(exercise);
         } else {
-            System.out.println("Exercise with given id does not exist.");
+            System.out.println("Exercise with given id does not exist");
         }
     }
 
@@ -102,7 +102,7 @@ public class Program_2 {
         if(exerciseDao.checkIfIdIsProper(id_number)){
             exerciseDao.delete(id_number);
         } else {
-            System.out.println("Exercise with given id does not exist.");
+            System.out.println("Exercise with given id does not exist");
         }
     }
 }
