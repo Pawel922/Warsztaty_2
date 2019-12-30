@@ -17,6 +17,8 @@ public class GroupDao {
             "DELETE FROM user_groups WHERE id = ?";
     private static final String FIND_ALL_USER_GROUPS_QUERY =
             "SELECT * FROM user_groups";
+    private static final String CHECK_IF_ID_IS_PROPER =
+            "SELECT user_groups.id AS id FROM user_groups WHERE id = ?";
 
     public Group create(Group group) {
         try (Connection conn = DBUtil.getConnection()) {
@@ -29,7 +31,7 @@ public class GroupDao {
             }
             return group;
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println("Adding new group failed. Make sure that input data are proper");
             return null;
         }
     }
@@ -46,7 +48,7 @@ public class GroupDao {
                 return group;
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println("Group with given id does not exist");
         }
         return null;
     }
@@ -58,7 +60,7 @@ public class GroupDao {
             statement.setInt(2, group.getId());
             statement.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println("Updating failed. Make sure that input data are proper");
         }
     }
 
@@ -68,7 +70,7 @@ public class GroupDao {
             statement.setInt(1, groupId);
             statement.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println("Deleting failed. Make sure that input data are proper");
         }
     }
 
@@ -85,7 +87,8 @@ public class GroupDao {
             }
             return groups;
         } catch (SQLException e) {
-            e.printStackTrace(); return null;
+            System.out.println("Finding all exercises failed. Make sure that input data are proper");
+            return null;
         }
     }
 
@@ -93,5 +96,21 @@ public class GroupDao {
         Group[] tmpGroups = Arrays.copyOf(groups, groups.length + 1);
         tmpGroups[tmpGroups.length - 1] = g;
         return tmpGroups;
+    }
+
+    public boolean checkIfIdIsProper(int groupId){
+        boolean iDIsProper = false;
+        try(Connection conn = DBUtil.getConnection()) {
+            PreparedStatement statement = conn.prepareStatement(CHECK_IF_ID_IS_PROPER);
+            statement.setInt(1,groupId);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                iDIsProper = true;
+            }
+            return iDIsProper;
+        } catch ( SQLException e){
+            System.out.println("Something goes wrong");
+            return iDIsProper;
+        }
     }
 }
