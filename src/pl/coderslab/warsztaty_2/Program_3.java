@@ -1,5 +1,6 @@
 package pl.coderslab.warsztaty_2;
 
+import org.apache.commons.lang3.StringUtils;
 import pl.coderslab.warsztaty_2.daos.GroupDao;
 import pl.coderslab.warsztaty_2.models.Group;
 
@@ -33,9 +34,12 @@ public class Program_3 {
     public static void printGroups(){
         GroupDao groupDao = new GroupDao();
         Group[] groups = groupDao.findAll();
+        System.out.printf("%-6s|%-50s%n","ID","NAME");
+        String separateLine = StringUtils.repeat("-",56);
+        System.out.println(separateLine);
         for(Group group : groups){
-            System.out.print(group);
-            System.out.println();
+            System.out.printf("%-6s|%-50s%n",group.getId(),group.getName());
+            System.out.println(separateLine);
         }
     }
 
@@ -79,17 +83,25 @@ public class Program_3 {
         GroupDao groupDao = new GroupDao();
         System.out.println("Give a proper id number of group which you want to edit");
         int id_number = Integer.parseInt(getData("Group_Id"));
-        Group group = groupDao.read(id_number);
-        System.out.println("Give a new data:");
-        group.setName(getData("Name"));
-        groupDao.update(group);
+        if(groupDao.checkIfIdIsProper(id_number)){
+            Group group = groupDao.read(id_number);
+            System.out.println("Give a new data:");
+            group.setName(getData("Name"));
+            groupDao.update(group);
+        } else {
+            System.out.println("Group with given id does not exist");
+        }
     }
 
     public static void deleteOption(){
         GroupDao groupDao = new GroupDao();
         System.out.println("Give a proper id number of group which you want to delete");
         int id_number = Integer.parseInt(getData("Group_Id"));
-        groupDao.delete(id_number);
+        if(groupDao.checkIfIdIsProper(id_number)){
+            groupDao.delete(id_number);
+        } else {
+            System.out.println("Group with given id does not exist");
+        }
     }
 }
 
