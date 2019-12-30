@@ -41,7 +41,7 @@ public class ExerciseDao {
             }
             return exercise;
         } catch (SQLException e) {
-            System.out.println("Adding new exercise failed. Make sure that input data are proper.");
+            System.out.println("Adding new exercise failed. Make sure that input data are proper");
             return null;
         }
     }
@@ -72,7 +72,7 @@ public class ExerciseDao {
             statement.setInt(3,exercise.getId());
             statement.executeUpdate();
         } catch (SQLException e) {
-            System.out.println("Updating failed. Make sure that input data are proper.");
+            System.out.println("Updating failed. Make sure that input data are proper");
         }
     }
 
@@ -82,7 +82,7 @@ public class ExerciseDao {
             statement.setInt(1, exerciseId);
             statement.executeUpdate();
         } catch (SQLException e) {
-            System.out.println("Deleting failed. Make sure that input data are proper.");
+            System.out.println("Deleting failed. Make sure that input data are proper");
         }
     }
 
@@ -100,7 +100,7 @@ public class ExerciseDao {
             }
             return exercises;
         } catch (SQLException e) {
-            System.out.println("Finding all exercises failed. Make sure that input data are proper.");
+            System.out.println("Finding all exercises failed. Make sure that input data are proper");
             return null;
         }
     }
@@ -127,7 +127,7 @@ public class ExerciseDao {
             }
             return exercises;
         } catch (SQLException e) {
-            System.out.println("Finding all incompleted exercises failed. Make sure that input data are proper.");
+            System.out.println("Finding all incompleted exercises failed. Make sure that input data are proper");
             return null;
         }
     }
@@ -143,7 +143,7 @@ public class ExerciseDao {
             }
             return iDIsProper;
         } catch ( SQLException e){
-            System.out.println("Something goes wrong.");
+            System.out.println("Something goes wrong");
             return iDIsProper;
         }
     }

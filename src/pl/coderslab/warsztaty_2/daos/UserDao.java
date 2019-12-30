@@ -38,7 +38,7 @@ public class UserDao {
             }
             return user;
         } catch (SQLException e) {
-            System.out.println("Adding new user failed. Make sure that input data are proper.");
+            System.out.println("Adding new user failed. Make sure that input data are proper");
             return null;
         }
     }
@@ -73,7 +73,7 @@ public class UserDao {
             statement.setInt(5, user.getId());
             statement.executeUpdate();
         } catch (SQLException e) {
-            System.out.println("Updating failed. Make sure that input data are proper. ");
+            System.out.println("Updating failed. Make sure that input data are proper");
         }
     }
 
@@ -83,7 +83,7 @@ public class UserDao {
             statement.setInt(1, userId);
             statement.executeUpdate();
         } catch (SQLException e) {
-            System.out.println("Deleting failed. Make sure that input data are proper. ");
+            System.out.println("Deleting failed. Make sure that input data are proper");
         }
     }
 
@@ -103,7 +103,7 @@ public class UserDao {
             }
             return users;
         } catch (SQLException e) {
-            System.out.println("Finding all users failed. Make sure that input data are proper. ");
+            System.out.println("Finding all users failed. Make sure that input data are proper");
             return null;
         }
     }
@@ -131,7 +131,7 @@ public class UserDao {
             }
             return users;
         } catch (SQLException e) {
-            System.out.println("Finding all users by group failed. Make sure that input data are proper. ");
+            System.out.println("Finding all users by group failed. Make sure that input data are proper");
             return null;
         }
     }
@@ -147,7 +147,7 @@ public class UserDao {
             }
             return userExist;
         } catch ( SQLException e){
-            System.out.println("Something goes wrong.");
+            System.out.println("Something goes wrong");
             return userExist;
         }
     }
@@ -163,7 +163,7 @@ public class UserDao {
             }
             return iDIsProper;
         } catch ( SQLException e){
-            System.out.println("Something goes wrong.");
+            System.out.println("Something goes wrong");
             return iDIsProper;
         }
     }
