@@ -1,6 +1,9 @@
 package pl.coderslab.warsztaty_2;
 
+import org.apache.commons.lang3.StringUtils;
+import pl.coderslab.warsztaty_2.daos.ExerciseDao;
 import pl.coderslab.warsztaty_2.daos.SolutionDao;
+import pl.coderslab.warsztaty_2.daos.UserDao;
 import pl.coderslab.warsztaty_2.models.Solution;
 
 import java.text.SimpleDateFormat;
@@ -54,14 +57,28 @@ public class Program_4 {
         int user_id;
         int exercise_id;
         Program_1.printUsers();
+        UserDao userDao = new UserDao();
+        ExerciseDao exerciseDao = new ExerciseDao();
         System.out.println("Give user ID: ");
         user_id = Integer.parseInt(Program_1.getData("user_ID"));
-        System.out.println("Give exercise ID: ");
-        exercise_id = Integer.parseInt(Program_1.getData("exercise_ID"));
+        if(userDao.checkIfIdIsProper(user_id)){
+            Program_2.printExercises();
+            System.out.println("Give exercise ID: ");
+            exercise_id = Integer.parseInt(Program_1.getData("exercise_ID"));
+            if(exerciseDao.checkIfIdIsProper(exercise_id)){
+                System.out.println("Give solution: ");
+                String userAnswer = getData("solution");
+                Solution solution = new Solution(getDate(), exercise_id, user_id, userAnswer);
+                SolutionDao solutionDao = new SolutionDao();
+                solutionDao.create(solution);
+            } else {
+                System.out.println("Exercise with given id does not exist");
+            }
 
-        Solution solution = new Solution(getDate(), exercise_id, user_id);
-        SolutionDao solutionDao = new SolutionDao();
-        solutionDao.create(solution);
+        } else {
+            System.out.println("User with given id does not exist");
+        }
+
     }
 
     public static String getDate(){
@@ -72,14 +89,29 @@ public class Program_4 {
 
     public static void viewOption(){
         int user_id;
+        UserDao userDao = new UserDao();
+        Program_1.printUsers();
         System.out.println("Give a proper id number of user whose solutions you want to review");
         user_id = Integer.parseInt(Program_1.getData("user_ID"));
-        SolutionDao solutionDao = new SolutionDao();
-        Solution[] solutions = solutionDao.findAllByUserId(user_id);
-        for (Solution solution : solutions){
-            System.out.print(solution);
-            System.out.println();
+        if(userDao.checkIfIdIsProper(user_id)){
+            SolutionDao solutionDao = new SolutionDao();
+            Solution[] solutions = solutionDao.findAllByUserId(user_id);
+            System.out.printf("%-13s|%-23s|%-23s|%-200s%n","EXERCISE_ID","CREATED","UPDATED","DESCRIPTION");
+            String separateLine = StringUtils.repeat("-",259);
+            System.out.println(separateLine);
+            for (Solution solution : solutions){
+                System.out.printf("%-13s|%-23s|%-23s|%-200s%n",solution.getExerciseId(),solution.getCreated(),solution.getUpdated(),solution.getDescription());
+                System.out.println(separateLine);
+            }
+        } else {
+            System.out.println("User with given id does not exist");
         }
+    }
+
+    public static String getData(String dataName){
+        Scanner scanner = new Scanner(System.in);
+        System.out.print(dataName + ": ");
+        return scanner.nextLine();
     }
 
 }
