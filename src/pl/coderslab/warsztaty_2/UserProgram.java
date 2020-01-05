@@ -1,5 +1,6 @@
 package pl.coderslab.warsztaty_2;
 
+import org.apache.commons.lang3.StringUtils;
 import pl.coderslab.warsztaty_2.daos.ExerciseDao;
 import pl.coderslab.warsztaty_2.daos.SolutionDao;
 import pl.coderslab.warsztaty_2.daos.UserDao;
@@ -69,20 +70,24 @@ public class UserProgram {
         ExerciseDao exerciseDao = new ExerciseDao();
         Exercise[] exercises = new Exercise[0];
         exercises = exerciseDao.findAllIncompleted(user_id);
-        for(Exercise exercise : exercises){
-            System.out.print(exercise);
-            System.out.println();
+        if(exercises.length != 0){
+            PrintExercises(exercises);
+            int exercise_id;
+            System.out.println("Which exercise do you want to solve ?");
+            exercise_id = Integer.parseInt(Program_1.getData("exercise_ID"));
+            if(belongTo(exercise_id,exercises)){
+                String description;
+                System.out.println("Give a solution: ");
+                description = Program_1.getData("Solution");
+                Solution solution = new Solution(getDate(), exercise_id, user_id, description);
+                SolutionDao solutionDao = new SolutionDao();
+                solutionDao.create(solution);
+            } else {
+                System.out.println("Exercise with given id does not exist or was solved");
+            }
+        } else {
+            System.out.println("There is nothing to show. All exercises solved");
         }
-
-        int exercise_id;
-        System.out.println("Which exercise do you want to solve ?");
-        exercise_id = Integer.parseInt(Program_1.getData("exercise_ID"));
-        String description;
-        System.out.println("Give a solution: ");
-        description = Program_1.getData("Solution");
-        Solution solution = new Solution(getDate(), exercise_id, user_id, description);
-        SolutionDao solutionDao = new SolutionDao();
-        solutionDao.create(solution);
     }
 
 
@@ -90,16 +95,42 @@ public class UserProgram {
     public static void viewOption(int user_id){
         SolutionDao solutionDao = new SolutionDao();
         Solution[] solutions = solutionDao.findAllByUserId(user_id);
-        for(Solution solution : solutions){
-            System.out.print(solution);
-            System.out.println();
-        }
+        PrintSolutions(solutions);
     }
 
     public static String getDate(){
         Date date = new Date();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm");
         return sdf.format(date);
+    }
+
+    public static void PrintSolutions(Solution[] solutions){
+        System.out.printf("%-13s|%-23s|%-23s|%-200s%n","EXERCISE_ID","CREATED","UPDATED","DESCRIPTION");
+        String separateLine = StringUtils.repeat("-",259);
+        System.out.println(separateLine);
+        for (Solution solution : solutions){
+            System.out.printf("%-13s|%-23s|%-23s|%-200s%n",solution.getExerciseId(),solution.getCreated(),solution.getUpdated(),solution.getDescription());
+            System.out.println(separateLine);
+        }
+    }
+
+    public static void PrintExercises(Exercise[] exercises){
+        System.out.printf("%-6s|%-30s|%-130s%n","ID","TITLE","DESCRIPTION");
+        String separateLine = StringUtils.repeat("-",156);
+        System.out.println(separateLine);
+        for(Exercise exercise : exercises){
+            System.out.printf("%-6s|%-30s|%-130s%n",exercise.getId(), exercise.getTitle(),exercise.getDescription());
+            System.out.println(separateLine);
+        }
+    }
+
+    public static boolean belongTo(int exercise_id, Exercise[] exercises){
+        for(Exercise exercise : exercises){
+            if(exercise.getId() == exercise_id){
+                return true;
+            }
+        }
+        return false;
     }
 
 
