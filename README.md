@@ -1,17 +1,17 @@
-## Warsztaty_2
+# Warsztaty_2
 
-# Introduction
+## Introduction
 Warsztaty_2 is a next project which was created during Coders Lab lessons.
 The project simulates application to manage programming school.
 It implements the design pattern Data Access Object to provide communication between users and database.
 
-# Before start
+## Before start
 Here you can find few steps which are necessary to run programs properly.
 1. Before you start using the application, you have to create database:
     ```sql
-    CREATE DATABASE warsztaty2
-      CHARACTER SET utf8mb4
-      COLLATE utf8mb4_unicode_ci;
+   CREATE DATABASE warsztaty2
+   CHARACTER SET utf8mb4
+   COLLATE utf8mb4_unicode_ci;
     ``` 
 2. After that you have to create tables in the following order:
    * user_groups - table which keeps information about student's groups 
@@ -63,7 +63,7 @@ Here you can find few steps which are necessary to run programs properly.
    private static final String DB_PASS = ""; //Password to your database
     ```
 	
-# Description
+## Description
 
 Each class is a kind of administrative programme and delivers particular functionality:
 * **Program 1** allow to add/edit/delete students
